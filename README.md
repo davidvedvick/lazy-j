@@ -1,6 +1,6 @@
 # lazy-j: Lazy Java initialization library
 
-Coming from the C# world, while working on audiocanoe I've often had the
+Coming from the C# world, while working on Android projects I've often had the
 overwhelming desire to use something similar to the
 [Lazy](https://msdn.microsoft.com/en-us/library/dd642331%28v=vs.110%29.aspx)
 class that is in the Standard libs for .Net. Using it, you can easily initialize
@@ -72,5 +72,3 @@ class SomeOtherClassThatNeedsConfig {
     }
 }
 ```
-
-You can view the source [here](https://github.com/danrien/lazy-j)!

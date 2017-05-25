@@ -1,26 +1,17 @@
 package com.vedsoft.lazyj;
 
-/**
- * Created by david on 11/28/15.
- */
-public abstract class Lazy<T> {
+import java.util.concurrent.Callable;
 
-	private T object;
+public final class Lazy<T> extends AbstractSynchronousLazy<T> {
 
-	public boolean isInitialized() {
-		return object != null;
+	private final Callable<T> initialization;
+
+	public Lazy(Callable<T> initialization) {
+		this.initialization = initialization;
 	}
 
-	public T getObject() {
-		return isInitialized() ? object : getValueSynchronized();
+	@Override
+	protected final T initialize() throws Exception {
+		return this.initialization.call();
 	}
-
-	private synchronized T getValueSynchronized() {
-		if (!isInitialized())
-			object = initialize();
-
-		return object;
-	}
-
-	protected abstract T initialize();
 }

@@ -1,4 +1,4 @@
-package com.vedsoft.lazyj;
+package com.namehillsoftware.lazyj;
 
 import java.util.concurrent.Callable;
 

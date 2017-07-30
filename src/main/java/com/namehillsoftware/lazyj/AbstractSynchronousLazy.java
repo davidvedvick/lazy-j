@@ -1,4 +1,4 @@
-package com.vedsoft.lazyj;
+package com.namehillsoftware.lazyj;
 
 public abstract class AbstractSynchronousLazy<T> implements ILazy<T> {
 

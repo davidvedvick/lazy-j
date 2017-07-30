@@ -12,32 +12,39 @@ your object will lazily be created the first time it is requested, using the
 supplied initialization function. It should also be thread-safe. It is also
 *EXCEEDINGLY* simple, here's the source:
 
-```
-package com.vedsoft.lazyj;
+```java
+package com.namehillsoftware.lazyj;
 
-/**
- * Created by david on 11/28/15.
- */
-public abstract class Lazy<T> {
+public abstract class AbstractSynchronousLazy<T> implements ILazy<T> {
 
 	private T object;
 
+	private RuntimeException exception;
+
 	public boolean isInitialized() {
-		return object != null;
+		return object != null || exception != null;
 	}
 
-	public T getObject() {
+	public final T getObject() {
 		return isInitialized() ? object : getValueSynchronized();
 	}
 
 	private synchronized T getValueSynchronized() {
-		if (!isInitialized())
-			object = initialize();
+		if (!isInitialized()) {
+			try {
+				object = initialize();
+			} catch (Exception e) {
+				exception = new RuntimeException(e);
+			}
+		}
+
+		if (exception != null)
+			throw exception;
 
 		return object;
 	}
 
-	protected abstract T initialize();
+	protected abstract T initialize() throws Exception;
 }
 ```
 

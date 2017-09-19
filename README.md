@@ -56,7 +56,7 @@ glance.
 
 Usage is also fairly simple. To instantiate a new object do something like below:
 
-```
+```java
 class MyClass {
     .
     .

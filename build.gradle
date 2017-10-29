@@ -2,8 +2,6 @@ apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-defaultTasks 'build'
-
 group = "com.namehillsoftware"
 archivesBaseName = "lazy-j"
 version = "1.0.1"
@@ -24,7 +22,10 @@ artifacts {
     archives sourcesJar
 }
 
+ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
+
 signing {
+    required { isReleaseVersion && gradle.taskGraph.hasTask("uploadArchives") }
     sign configurations.archives
 }
 

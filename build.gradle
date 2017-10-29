@@ -1,5 +1,8 @@
 apply plugin: 'java'
 apply plugin: 'maven'
+apply plugin: 'signing'
+
+defaultTasks 'build'
 
 group = "com.namehillsoftware"
 archivesBaseName = "lazy-j"
@@ -21,26 +24,29 @@ artifacts {
     archives sourcesJar
 }
 
-if (sonatypeUsername != null && sonatypePassword != null) {
-    apply plugin: 'signing'
-    signing {
-        sign configurations.archives
-    }
+signing {
+    sign configurations.archives
+}
+
+if (!hasProperty("sonatypeUsername")) {
+    sonatypeUsername = ""
+}
+
+if (!hasProperty("sonatypePassword")) {
+    sonatypePassword = ""
 }
 
 uploadArchives {
     repositories {
         mavenDeployer {
-            if (sonatypeUsername != null && sonatypePassword != null) {
-                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                    authentication(userName: sonatypeUsername, password: sonatypePassword)
-                }
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: sonatypeUsername, password: sonatypePassword)
+            }
 
-                snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-                    authentication(userName: sonatypeUsername, password: sonatypePassword)
-                }
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: sonatypeUsername, password: sonatypePassword)
             }
 
             pom.project {

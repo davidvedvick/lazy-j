@@ -10,7 +10,7 @@ buildscript {
 
 apply plugin: 'java'
 apply plugin: 'maven'
-apply plugin: 'signing'
+//apply plugin: 'signing'
 apply plugin: 'com.cinnober.gradle.semver-git'
 
 group = "com.namehillsoftware"
@@ -35,10 +35,10 @@ artifacts {
     archives sourcesJar
 }
 
-signing {
-    required { !version.endsWith("SNAPSHOT") && gradle.taskGraph.hasTask("uploadArchives") }
-    sign configurations.archives
-}
+//signing {
+//    required { !version.endsWith("SNAPSHOT") && gradle.taskGraph.hasTask("uploadArchives") }
+//    sign configurations.archives
+//}
 
 if (!hasProperty("sonatypeUsername")) {
     sonatypeUsername = ""

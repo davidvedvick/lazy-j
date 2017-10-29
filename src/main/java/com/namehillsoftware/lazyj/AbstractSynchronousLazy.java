@@ -1,6 +1,6 @@
 package com.namehillsoftware.lazyj;
 
-public abstract class AbstractSynchronousLazy<T> implements ILazy<T> {
+public abstract class AbstractSynchronousLazy<T> implements HoldObject<T> {
 
 	private T object;
 

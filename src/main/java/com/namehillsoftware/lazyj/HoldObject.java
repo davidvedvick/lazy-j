@@ -1,6 +1,6 @@
 package com.namehillsoftware.lazyj;
 
-public interface ILazy<T> {
+public interface HoldObject<T> {
 	boolean isInitialized();
 	T getObject();
 }

@@ -17,7 +17,7 @@ group = "com.namehillsoftware"
 archivesBaseName = "lazy-j"
 version = project.version
 
-logger.info('Version set to ' + version)
+println 'Version set to ' + version
 
 sourceCompatibility = JavaVersion.VERSION_1_6
 targetCompatibility = JavaVersion.VERSION_1_6

@@ -26,6 +26,14 @@ signing {
     sign configurations.archives
 }
 
+if (ossrhUsername == null) {
+    ossrhUsername = ""
+}
+
+if (ossrhPassword == null) {
+    ossrhPassword = ""
+}
+
 uploadArchives {
     repositories {
         mavenDeployer {

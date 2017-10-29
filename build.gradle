@@ -33,10 +33,8 @@ artifacts {
     archives sourcesJar
 }
 
-ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
-
 signing {
-    required { isReleaseVersion && gradle.taskGraph.hasTask("uploadArchives") }
+    required { !version.endsWith("SNAPSHOT") && gradle.taskGraph.hasTask("uploadArchives") }
     sign configurations.archives
 }
 
@@ -48,7 +46,7 @@ if (!hasProperty("sonatypePassword")) {
     sonatypePassword = ""
 }
 
-uploadArchives {
+uploadArchives(dependsOn: ('signing')) {
     repositories {
         mavenDeployer {
             beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
@@ -92,3 +90,5 @@ uploadArchives {
         }
     }
 }
+
+uploadArchives.setEnabled(!version.endsWith("SNAPSHOT"))

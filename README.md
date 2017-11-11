@@ -15,24 +15,24 @@ supplied initialization function. It should also be thread-safe. It is also
 ```java
 package com.namehillsoftware.lazyj;
 
-public abstract class AbstractSynchronousLazy<T> implements ILazy<T> {
+public abstract class AbstractSynchronousLazy<T> implements CreateAndHold<T> {
 
 	private T object;
 
 	private RuntimeException exception;
 
-	public boolean isInitialized() {
+	public boolean isCreated() {
 		return object != null || exception != null;
 	}
 
 	public final T getObject() {
-		return isInitialized() ? object : getValueSynchronized();
+		return isCreated() ? object : getValueSynchronized();
 	}
 
 	private synchronized T getValueSynchronized() {
-		if (!isInitialized()) {
+		if (!isCreated()) {
 			try {
-				object = initialize();
+				object = create();
 			} catch (Exception e) {
 				exception = new RuntimeException(e);
 			}
@@ -44,7 +44,7 @@ public abstract class AbstractSynchronousLazy<T> implements ILazy<T> {
 		return object;
 	}
 
-	protected abstract T initialize() throws Exception;
+	protected abstract T create() throws Exception;
 }
 ```
 
@@ -62,9 +62,9 @@ class MyClass {
     .
     .
 
-    public static Lazy<MyCrazySingletonConfig> myCrazySingletonConfig = new Lazy<MyCrazySingletonConfig>() {
+    public static CreateAndHold<MyCrazySingletonConfig> myCrazySingletonConfig = new AbstractSynchronousLazy<MyCrazySingletonConfig>() {
         @Override
-		protected MyCrazySingletonConfig initialize() {
+		protected MyCrazySingletonConfig create() {
             final MyCrazySingletonConfig newConfig = .....
 
             return newConfig;

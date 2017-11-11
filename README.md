@@ -33,6 +33,8 @@ public abstract class AbstractSynchronousLazy<T> implements CreateAndHold<T> {
 		if (!isCreated()) {
 			try {
 				object = create();
+            } catch (RuntimeException e) {
+                exception = e;
 			} catch (Exception e) {
 				exception = new RuntimeException(e);
 			}

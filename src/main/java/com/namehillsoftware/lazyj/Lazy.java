@@ -11,7 +11,7 @@ public final class Lazy<T> extends AbstractSynchronousLazy<T> {
 	}
 
 	@Override
-	protected final T initialize() throws Exception {
-		return this.initialization.call();
+	protected final T create() throws Exception {
+		return initialization.call();
 	}
 }

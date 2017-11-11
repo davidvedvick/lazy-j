@@ -1,6 +1,6 @@
 package com.namehillsoftware.lazyj;
 
-public abstract class AbstractSynchronousLazy<T> implements CreateAndHoldObject<T> {
+public abstract class AbstractSynchronousLazy<T> implements CreateAndHold<T> {
 
 	private T object;
 
@@ -17,7 +17,7 @@ public abstract class AbstractSynchronousLazy<T> implements CreateAndHoldObject<
 	private synchronized T getValueSynchronized() {
 		if (!isCreated()) {
 			try {
-				object = initialize();
+				object = create();
 			} catch (Exception e) {
 				exception = new RuntimeException(e);
 			}
@@ -29,5 +29,5 @@ public abstract class AbstractSynchronousLazy<T> implements CreateAndHoldObject<
 		return object;
 	}
 
-	protected abstract T initialize() throws Exception;
+	protected abstract T create() throws Exception;
 }

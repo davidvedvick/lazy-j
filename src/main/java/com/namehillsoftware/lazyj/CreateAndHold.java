@@ -1,6 +1,6 @@
 package com.namehillsoftware.lazyj;
 
-public interface CreateAndHoldObject<T> {
+public interface CreateAndHold<T> {
 	boolean isCreated();
 	T getObject();
 }

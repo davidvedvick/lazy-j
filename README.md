@@ -33,8 +33,8 @@ public abstract class AbstractSynchronousLazy<T> implements CreateAndHold<T> {
 		if (!isCreated()) {
 			try {
 				object = create();
-            } catch (RuntimeException e) {
-                exception = e;
+			} catch (RuntimeException e) {
+				exception = e;
 			} catch (Exception e) {
 				exception = new RuntimeException(e);
 			}
@@ -65,13 +65,13 @@ class MyClass {
     .
 
     public static CreateAndHold<MyCrazySingletonConfig> myCrazySingletonConfig = new AbstractSynchronousLazy<MyCrazySingletonConfig>() {
-        @Override
+		@Override
 		protected MyCrazySingletonConfig create() {
-            final MyCrazySingletonConfig newConfig = .....
+			final MyCrazySingletonConfig newConfig = .....
 
-            return newConfig;
-        }
-    };    
+			return newConfig;
+		}
+	};    
 }
 
 class SomeOtherClassThatNeedsConfig {

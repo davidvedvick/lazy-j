@@ -3,7 +3,6 @@ package com.namehillsoftware.lazyj;
 /**
  * An implementation of `CreateAndHold` which initializes after a
  * double-checked lock.
- * @param <T> The type to create
  *
  * Example implementation:
  *
@@ -17,6 +16,8 @@ package com.namehillsoftware.lazyj;
  *     }
  * };
  * ```
+ *
+ * @param <T> The type to create
  */
 public abstract class AbstractSynchronousLazy<T> implements CreateAndHold<T> {
 

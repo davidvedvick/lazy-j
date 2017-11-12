@@ -1,7 +1,10 @@
+repositories {
+    jcenter()
+}
+
 buildscript {
     repositories {
         jcenter()
-        mavenCentral()
     }
     dependencies {
         classpath 'com.cinnober.gradle:semver-git:2.2.0'
@@ -19,13 +22,16 @@ group = "com.namehillsoftware"
 archivesBaseName = "lazy-j"
 version = project.version
 
-println 'Version set to ' + version
-
 sourceCompatibility = JavaVersion.VERSION_1_6
 targetCompatibility = JavaVersion.VERSION_1_6
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
 }
 
 task sourcesJar(type: Jar) {
@@ -34,7 +40,7 @@ task sourcesJar(type: Jar) {
 }
 
 artifacts {
-    archives sourcesJar
+    archives javadocJar, sourcesJar
 }
 
 signing {

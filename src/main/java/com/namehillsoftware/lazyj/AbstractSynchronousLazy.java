@@ -1,5 +1,23 @@
 package com.namehillsoftware.lazyj;
 
+/**
+ * An implementation of `CreateAndHold` which initializes after a
+ * double-checked lock.
+ * @param <T> The type to create
+ *
+ * Example implementation:
+ *
+ * ```java
+ * public static CreateAndHold<MyCrazySingletonConfig> myCrazySingletonConfig = new AbstractSynchronousLazy<MyCrazySingletonConfig>() {
+ *     .@Override
+ *     protected MyCrazySingletonConfig create() {
+ *         final MyCrazySingletonConfig newConfig = .....
+ *
+ *         return newConfig;
+ *     }
+ * };
+ * ```
+ */
 public abstract class AbstractSynchronousLazy<T> implements CreateAndHold<T> {
 
 	private T object;
@@ -20,8 +38,8 @@ public abstract class AbstractSynchronousLazy<T> implements CreateAndHold<T> {
 				object = create();
 			} catch (RuntimeException e) {
 				exception = e;
-			} catch (Exception e) {
-				exception = new RuntimeException(e);
+			} catch (Throwable t) {
+				exception = new RuntimeException(t);
 			}
 		}
 
@@ -31,5 +49,12 @@ public abstract class AbstractSynchronousLazy<T> implements CreateAndHold<T> {
 		return object;
 	}
 
-	protected abstract T create() throws Exception;
+	/**
+	 * The creation function. This function will only be called once.
+	 * If the implementation gives an error, that error will be retained
+	 * and rethrown.
+	 * @return An object of type @param <T>
+	 * @throws Throwable
+	 */
+	protected abstract T create() throws Throwable;
 }

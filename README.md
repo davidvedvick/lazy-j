@@ -58,7 +58,7 @@ glance.
 
 ## Usage
 
-Usage is also fairly simple. To install via gradle add this to `build.gradle`:
+Usage is also fairly simple. To install via gradle add this to your `build.gradle`:
 
 ```
 dependencies {

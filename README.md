@@ -56,7 +56,17 @@ niceties of Microsoft's library (such as different degrees of thread-safety),
 but it gets the job done nicely while being simple enough to understand at a
 glance.
 
-Usage is also fairly simple. To instantiate a new object do something like below:
+## Usage
+
+Usage is also fairly simple. To install via gradle add this to `build.gradle`:
+
+```
+dependencies {
+	compile 'com.namehillsoftware:lazy-j:0.9.0'
+}
+```
+
+To instantiate a new object do something like below:
 
 ```java
 class MyClass {

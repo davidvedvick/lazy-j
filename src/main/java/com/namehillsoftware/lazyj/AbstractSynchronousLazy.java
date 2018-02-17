@@ -51,23 +51,21 @@ public abstract class AbstractSynchronousLazy<T> implements CreateAndHold<T> {
 			if (isCreated) return getValue();
 
 			try {
-				object = create();
+				return object = create();
 			} catch (RuntimeException e) {
-				exception = e;
+				throw exception = e;
 			} catch (Throwable t) {
-				exception = new RuntimeException(t);
+				throw exception = new RuntimeException(t);
 			} finally {
 				isCreated = true;
 			}
-
-			return getValue();
 		}
 	}
 
 	private T getValue() {
-		if (exception != null)
-			throw exception;
+		if (exception == null)
+			return object;
 
-		return object;
+		throw exception;
 	}
 }

@@ -21,33 +21,18 @@ package com.namehillsoftware.lazyj;
  */
 public abstract class AbstractSynchronousLazy<T> implements CreateAndHold<T> {
 
+	private final Object syncObject = new Object();
+
+	private boolean isCreated;
+
 	private T object;
 
 	private RuntimeException exception;
 
 	public boolean isCreated() {
-		return object != null || exception != null;
-	}
-
-	public final T getObject() {
-		return isCreated() ? object : getValueSynchronized();
-	}
-
-	private synchronized T getValueSynchronized() {
-		if (!isCreated()) {
-			try {
-				object = create();
-			} catch (RuntimeException e) {
-				exception = e;
-			} catch (Throwable t) {
-				exception = new RuntimeException(t);
-			}
+		synchronized (syncObject) {
+			return isCreated;
 		}
-
-		if (exception != null)
-			throw exception;
-
-		return object;
 	}
 
 	/**
@@ -58,4 +43,31 @@ public abstract class AbstractSynchronousLazy<T> implements CreateAndHold<T> {
 	 * @throws Throwable
 	 */
 	protected abstract T create() throws Throwable;
+
+	public final T getObject() {
+		if (isCreated) return getValue();
+
+		synchronized (syncObject) {
+			if (isCreated) return getValue();
+
+			try {
+				object = create();
+			} catch (RuntimeException e) {
+				exception = e;
+			} catch (Throwable t) {
+				exception = new RuntimeException(t);
+			} finally {
+				isCreated = true;
+			}
+
+			return getValue();
+		}
+	}
+
+	private T getValue() {
+		if (exception != null)
+			throw exception;
+
+		return object;
+	}
 }
